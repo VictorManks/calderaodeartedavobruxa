@@ -7,6 +7,19 @@
 # General application configuration
 import Config
 
+config :calderaodeartedavobruxa, :scopes,
+  user: [
+    default: true,
+    module: Calderaodeartedavobruxa.Accounts.Scope,
+    assign_key: :current_scope,
+    access_path: [:user, :id],
+    schema_key: :user_id,
+    schema_type: :id,
+    schema_table: :users,
+    test_data_fixture: Calderaodeartedavobruxa.AccountsFixtures,
+    test_setup_helper: :register_and_log_in_user
+  ]
+
 config :calderaodeartedavobruxa,
   ecto_repos: [Calderaodeartedavobruxa.Repo],
   generators: [timestamp_type: :utc_datetime]
