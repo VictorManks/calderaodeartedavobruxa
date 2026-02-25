@@ -1,5 +1,7 @@
 import Config
 
+config :calderaodeartesdavobruxa, env: :dev
+
 # Configure your database
 config :calderaodeartesdavobruxa, Calderaodeartesdavobruxa.Repo,
   username: "postgres",

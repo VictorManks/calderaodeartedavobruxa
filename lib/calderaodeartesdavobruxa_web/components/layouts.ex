@@ -95,33 +95,73 @@ defmodule CalderaodeartesdavobruxaWeb.Layouts do
   """
   def theme_toggle(assigns) do
     ~H"""
-    <div class="card relative flex flex-row items-center border-2 border-base-300 bg-base-300 rounded-full">
-      <div class="absolute w-1/3 h-full rounded-full border-1 border-base-200 bg-base-100 brightness-200 left-0 [[data-theme=light]_&]:left-1/3 [[data-theme=dark]_&]:left-2/3 transition-[left]" />
-
-      <button
-        class="flex p-1 cursor-pointer w-1/3"
-        phx-click={JS.dispatch("phx:set-theme")}
-        data-phx-theme="system"
-      >
-        <.icon name="hero-computer-desktop-micro" class="size-3 opacity-75 hover:opacity-100" />
-      </button>
-
-      <button
-        class="flex p-1 cursor-pointer w-1/3"
-        phx-click={JS.dispatch("phx:set-theme")}
-        data-phx-theme="light"
-      >
-        <.icon name="hero-sun-micro" class="size-3 opacity-75 hover:opacity-100" />
-      </button>
-
-      <button
-        class="flex p-1 cursor-pointer w-1/3"
-        phx-click={JS.dispatch("phx:set-theme")}
-        data-phx-theme="dark"
-      >
-        <.icon name="hero-moon-micro" class="size-3 opacity-75 hover:opacity-100" />
-      </button>
+    <div
+      id="theme-toggle"
+      class="flex items-center gap-1 bg-base-300 rounded-full p-1"
+      phx-hook=".ThemeToggleSync"
+    >
+      <label class="tooltip tooltip-bottom" data-tip="Sistema">
+        <input
+          type="radio"
+          name="theme-toggle-radio"
+          class="theme-controller btn btn-xs btn-ghost btn-square rounded-full border-0 checked:bg-base-100"
+          aria-label="💻"
+          value="system"
+        />
+      </label>
+      <label class="tooltip tooltip-bottom" data-tip="Claro">
+        <input
+          type="radio"
+          name="theme-toggle-radio"
+          class="theme-controller btn btn-xs btn-ghost btn-square rounded-full border-0 checked:bg-base-100"
+          aria-label="☀️"
+          value="light"
+        />
+      </label>
+      <label class="tooltip tooltip-bottom" data-tip="Escuro">
+        <input
+          type="radio"
+          name="theme-toggle-radio"
+          class="theme-controller btn btn-xs btn-ghost btn-square rounded-full border-0 checked:bg-base-100"
+          aria-label="🌙"
+          value="dark"
+        />
+      </label>
     </div>
+    <script :type={Phoenix.LiveView.ColocatedHook} name=".ThemeToggleSync">
+      export default {
+        mounted() {
+          // Sincroniza os radios com o data-theme atual
+          const sync = () => {
+            const current = document.documentElement.getAttribute("data-theme") || "system";
+            this.el.querySelectorAll("input[type=radio]").forEach(r => {
+              r.checked = r.value === current;
+            });
+          };
+          sync();
+
+          // Persiste e aplica o tema ao mudar o radio
+          this.el.addEventListener("change", (e) => {
+            const theme = e.target.value;
+            if (theme === "system") {
+              localStorage.removeItem("phx:theme");
+              document.documentElement.removeAttribute("data-theme");
+            } else {
+              localStorage.setItem("phx:theme", theme);
+              document.documentElement.setAttribute("data-theme", theme);
+            }
+            sync();
+          });
+
+          // Observa mudanças externas no data-theme (ex: outro toggle)
+          this._observer = new MutationObserver(sync);
+          this._observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+        },
+        destroyed() {
+          if (this._observer) this._observer.disconnect();
+        }
+      }
+    </script>
     """
   end
 end

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title default="Calderaodeartesdavobruxa" suffix=" · Phoenix Framework">
+    <.live_title default="Caldeirão de Artes da Vó Bruxa">
       {assigns[:page_title]}
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/css/app.css"} />
@@ -26,7 +26,7 @@
         }
         window.addEventListener("storage", (e) => e.key === "phx:theme" && setTheme(e.newValue || "system"));
 
-        window.addEventListener("phx:set-theme", (e) => setTheme(e.target.dataset.phxTheme));
+        window.addEventListener("phx:set-theme", (e) => setTheme(e.detail.dispatcher.dataset.phxTheme));
       })();
     </script>
   </head>
@@ -35,7 +35,7 @@
       <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
 
       <div class="drawer-content flex flex-col min-h-screen">
-        <div class="navbar bg-base-100 border-b border-base-200 px-4 sm:px-6 lg:px-8">
+        <div class="navbar bg-base-100 border-b border-base-300 px-4 sm:px-6 lg:px-8">
           <div class="flex-none lg:hidden">
             <label for="sidebar-drawer" class="btn btn-ghost btn-square">
               <.icon name="hero-bars-3" class="size-5" />
@@ -45,26 +45,26 @@
           <ul class="menu menu-horizontal flex items-center gap-2">
             <%= if @current_scope do %>
               <li>
-                <span class="text-sm opacity-70">{@current_scope.user.email}</span>
+                <span class="text-sm opacity-60">{@current_scope.user.email}</span>
               </li>
               <li>
                 <.theme_toggle />
               </li>
               <li>
-                <.link href={~p"/users/settings"}>Settings</.link>
+                <.link href={~p"/users/settings"} class="text-sm font-medium">Configurações</.link>
               </li>
               <li>
-                <.link href={~p"/users/log-out"} method="delete">Log out</.link>
+                <.link href={~p"/users/log-out"} method="delete" class="text-sm font-medium">Sair</.link>
               </li>
             <% else %>
               <li>
                 <.theme_toggle />
               </li>
               <li>
-                <.link href={~p"/users/register"}>Register</.link>
+                <.link href={~p"/users/register"} class="text-sm font-medium">Cadastrar</.link>
               </li>
               <li>
-                <.link href={~p"/users/log-in"}>Log in</.link>
+                <.link href={~p"/users/log-in"} class="btn btn-primary btn-sm rounded-xl">Entrar</.link>
               </li>
             <% end %>
           </ul>
@@ -75,18 +75,21 @@
 
       <div class="drawer-side z-40">
         <label for="sidebar-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
-        <aside class="bg-base-200 min-h-full w-64 flex flex-col">
-          <div class="px-4 py-5">
+        <aside class="bg-base-200 min-h-full w-64 flex flex-col border-r border-base-300">
+          <div class="px-5 py-6 border-b border-base-300">
             <a href="/" class="flex items-center gap-2">
-              <img src={~p"/images/logo.svg"} width="32" />
-              <span class="font-semibold text-sm">Caldeirão de Arte</span>
+              <span class="text-2xl">🪄</span>
+              <div>
+                <p class="font-bold text-sm text-base-content leading-tight">Caldeirão de Artes</p>
+                <p class="text-xs text-base-content/60">da Vó Bruxa</p>
+              </div>
             </a>
           </div>
-          <ul class="menu menu-lg flex-1 px-3">
+          <ul class="menu menu-lg flex-1 px-3 pt-3">
             <li>
               <.link href={~p"/"}>
                 <.icon name="hero-home" class="size-5" />
-                Home
+                Início
               </.link>
             </li>
             <li>
