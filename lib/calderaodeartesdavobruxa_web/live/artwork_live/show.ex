@@ -120,6 +120,7 @@ defmodule CalderaodeartesdavobruxaWeb.ArtworkLive.Show do
 
         <div class="flex flex-col gap-4">
           <div :for={opinion <- @opinions} class="card bg-base-100 shadow-sm p-5">
+            <p class="text-sm font-semibold text-base-content mb-1">{opinion.user.name}</p>
             <div class="flex items-center gap-2 mb-2">
               <div class="flex gap-0.5">
                 <span :for={i <- 1..5}>

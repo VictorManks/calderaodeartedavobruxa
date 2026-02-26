@@ -28,7 +28,7 @@ defmodule CalderaodeartesdavobruxaWeb.UserLive.RegistrationTest do
       result =
         lv
         |> element("#registration_form")
-        |> render_change(user: %{"email" => "with spaces"})
+        |> render_change(user: %{"name" => unique_user_name(), "email" => "with spaces"})
 
       assert result =~ "Register"
       assert result =~ "must have the @ sign and no spaces"
@@ -46,8 +46,7 @@ defmodule CalderaodeartesdavobruxaWeb.UserLive.RegistrationTest do
         render_submit(form)
         |> follow_redirect(conn, ~p"/users/log-in")
 
-      assert html =~
-               ~r/An email was sent to .*, please access it to confirm your account/
+      assert html =~ "Conta criada com sucesso"
     end
 
     test "renders errors for duplicated email", %{conn: conn} do
@@ -58,7 +57,7 @@ defmodule CalderaodeartesdavobruxaWeb.UserLive.RegistrationTest do
       result =
         lv
         |> form("#registration_form",
-          user: %{"email" => user.email}
+          user: %{"name" => unique_user_name(), "email" => user.email}
         )
         |> render_submit()
 

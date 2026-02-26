@@ -24,12 +24,19 @@ defmodule CalderaodeartesdavobruxaWeb.UserLive.Registration do
 
         <.form for={@form} id="registration_form" phx-submit="save" phx-change="validate">
           <.input
+            field={@form[:name]}
+            type="text"
+            label="Nome"
+            autocomplete="name"
+            required
+            phx-mounted={JS.focus()}
+          />
+          <.input
             field={@form[:email]}
             type="email"
             label="Email"
             autocomplete="username"
             required
-            phx-mounted={JS.focus()}
           />
 
           <.button phx-disable-with="Creating account..." class="btn btn-primary w-full">
@@ -57,18 +64,11 @@ defmodule CalderaodeartesdavobruxaWeb.UserLive.Registration do
   def handle_event("save", %{"user" => user_params}, socket) do
     case Accounts.register_user(user_params) do
       {:ok, user} ->
-        {:ok, _} =
-          Accounts.deliver_login_instructions(
-            user,
-            &url(~p"/users/log-in/#{&1}")
-          )
+        Accounts.confirm_user(user)
 
         {:noreply,
          socket
-         |> put_flash(
-           :info,
-           "An email was sent to #{user.email}, please access it to confirm your account."
-         )
+         |> put_flash(:info, "Conta criada com sucesso! Faça login para continuar.")
          |> push_navigate(to: ~p"/users/log-in")}
 
       {:error, %Ecto.Changeset{} = changeset} ->

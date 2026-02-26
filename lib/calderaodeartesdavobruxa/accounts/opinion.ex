@@ -6,8 +6,8 @@ defmodule Calderaodeartesdavobruxa.Accounts.Opinion do
     field :ratin, :integer
     field :opinion_text, :string
     belongs_to :artwork, Calderaodeartesdavobruxa.Gallery.Artwork
+    belongs_to :user, Calderaodeartesdavobruxa.Accounts.User
     field :public, :boolean, default: false
-    field :user_id, :id
 
     timestamps(type: :utc_datetime)
   end

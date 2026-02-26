@@ -3,6 +3,7 @@ defmodule Calderaodeartesdavobruxa.Accounts.User do
   import Ecto.Changeset
 
   schema "users" do
+    field :name, :string
     field :email, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
@@ -26,7 +27,9 @@ defmodule Calderaodeartesdavobruxa.Accounts.User do
   """
   def email_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email])
+    |> cast(attrs, [:name, :email])
+    |> validate_required([:name])
+    |> validate_length(:name, max: 100)
     |> validate_email(opts)
   end
 
