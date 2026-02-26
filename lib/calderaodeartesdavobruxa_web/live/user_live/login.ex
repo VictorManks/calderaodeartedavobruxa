@@ -8,16 +8,16 @@ defmodule CalderaodeartesdavobruxaWeb.UserLive.Login do
       <div class="mx-auto max-w-sm space-y-4">
         <div class="text-center">
           <.header>
-            <p>Log in</p>
+            <p>Entrar</p>
             <:subtitle>
               <%= if @current_scope do %>
-                You need to reauthenticate to perform sensitive actions on your account.
+                Você precisa se autenticar novamente para realizar ações sensíveis na sua conta.
               <% else %>
-                Don't have an account? <.link
+                Não tem uma conta? <.link
                   navigate={~p"/users/register"}
                   class="font-semibold text-brand hover:underline"
                   phx-no-format
-                >Sign up</.link> for an account now.
+                >Cadastre-se</.link> agora.
               <% end %>
             </:subtitle>
           </.header>
@@ -42,14 +42,14 @@ defmodule CalderaodeartesdavobruxaWeb.UserLive.Login do
           <.input
             field={@form[:password]}
             type="password"
-            label="Password"
+            label="Senha"
             autocomplete="current-password"
           />
           <.button class="btn btn-primary w-full" name={@form[:remember_me].name} value="true">
-            Log in and stay logged in <span aria-hidden="true">→</span>
+            Entrar e permanecer conectado <span aria-hidden="true">→</span>
           </.button>
           <.button class="btn btn-primary btn-soft w-full mt-2">
-            Log in only this time
+            Entrar apenas desta vez
           </.button>
         </.form>
       </div>

@@ -8,8 +8,8 @@ defmodule CalderaodeartesdavobruxaWeb.UserLive.LoginTest do
     test "renders login page", %{conn: conn} do
       {:ok, _lv, html} = live(conn, ~p"/users/log-in")
 
-      assert html =~ "Log in"
-      assert html =~ "Sign up"
+      assert html =~ "Entrar"
+      assert html =~ "Cadastre-se"
     end
   end
 
@@ -51,7 +51,7 @@ defmodule CalderaodeartesdavobruxaWeb.UserLive.LoginTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element("main a", "Sign up")
+        |> element("main a", "Cadastre-se")
         |> render_click()
         |> follow_redirect(conn, ~p"/users/register")
 
@@ -68,10 +68,10 @@ defmodule CalderaodeartesdavobruxaWeb.UserLive.LoginTest do
     test "shows login page with email filled in", %{conn: conn, user: user} do
       {:ok, _lv, html} = live(conn, ~p"/users/log-in")
 
-      assert html =~ "You need to reauthenticate"
-      refute html =~ "Register"
+      assert html =~ "autenticar novamente"
+      refute html =~ "Cadastre-se"
 
-      assert html =~ "You need to reauthenticate"
+      assert html =~ "autenticar novamente"
     end
   end
 end
